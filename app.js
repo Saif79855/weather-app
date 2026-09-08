@@ -1,11 +1,43 @@
-import request from "request";
+import forecast from './utils/forecast.js';
+import geoCode from './utils/geocode.js'
 
-const url =
-  "https://api.weatherstack.com/current?access_key=7de6328fa3e6192f16fd7b27cf02084b&query=20.5937,78.9629";
+// const url =
+//   "https://api.weatherstack.com/current?access_key=7de6328fa3e6192f16fd7b27cf02084b&query=20.5937,78.9629";
 
-request({ url: url, json: true }, (error, response) => {
-  console.log(
-    `the current temp is ${response.body.current["temperature"]} and it feels like ${response.body.current["feelslike"]}`,
-  );
-  console.log(response.body.current.weather_descriptions[0])
+// try {
+//   const responseWeather =await fetch(url);
+//   if (!responseWeather.ok) {
+//     throw new Error(`HTTP error Status :- ${responseWeather.status}`);
+//   }
+//     const dataWeather = await responseWeather.json()
+
+//     const temp = dataWeather.current.temperature;
+//     const feelsLike = dataWeather.current.feelslike;
+
+//     console.log(
+//       `The temperature is ${temp} degrees and it feels like ${feelsLike} degrees`,
+//     );
+
+// } catch (error) {
+//   console.log(error.message);
+// }
+
+geoCode("Taj mahal", (data, error) => {
+  if (error) {
+    console.log(error.message);
+    return;
+  }
+
+  console.log(`City: ${data.city}`);
+  console.log(`Latitude: ${data.lat}`);
+  console.log(`Longitude: ${data.lon}`);
 });
+
+forecast(28.6139,77.2090,(data,error)=>{
+  if (error) {
+    console.log(error.message)
+    return;
+  }
+
+  console.log(`The temperature is ${data.temperature} degrees and it feels like ${data.feelsLike} degrees`)
+})
